@@ -1,0 +1,32 @@
+generated: '2026-09-27'
+method: probed
+source: "https://www.deeplead.io/privacy-policy"
+signals:
+  data_subject_request:
+    evidence:
+      - source: "https://www.deeplead.io/privacy-policy"
+        http_status: 200
+        fetched: "privacy-policy"
+        quote: "Subject to applicable law, you may request access, correction, deletion, restriction or portability of your personal information, object to processing, withdraw consent, or complain to your data protection authority."
+        note: "Provides data subject rights for access, correction, deletion, restriction, portability, objection, consent withdrawal."
+  data_retention:
+    evidence:
+      - source: "https://www.deeplead.io/privacy-policy"
+        http_status: 200
+        fetched: "privacy-policy"
+        quote: "We keep chat and SMS records for as long as needed for the conversation, our relationship with you, compliance and the resolution of disputes."
+        note: "States retention period is indefinite, based on need."
+  subprocessors:
+    evidence:
+      - source: "https://www.deeplead.io/privacy-policy"
+        http_status: 200
+        fetched: "privacy-policy"
+        quote: "We use HighLevel/LeadConnector and the providers involved in message delivery to operate our chat and SMS service. They process the information needed to store conversations, deliver messages, record preferences and provide support on our behalf."
+        note: "Identifies subprocessors handling data."
+  data_residency:
+    evidence:
+      - source: "https://www.deeplead.io/privacy-policy"
+        http_status: 200
+        fetched: "privacy-policy"
+        quote: "Messaging providers may process information outside your country, including in the United States."
+        note: "Mentions cross‑border data transfers."

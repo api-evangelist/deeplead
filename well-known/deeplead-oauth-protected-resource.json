@@ -1,0 +1,1 @@
+{"resource":"https://www.deeplead.io/api/mcp","authorization_servers":["https://www.deeplead.io/api/auth"],"bearer_methods_supported":["header"],"dpop_signing_alg_values_supported":["EdDSA","ES256","ES512","PS256","RS256"]}

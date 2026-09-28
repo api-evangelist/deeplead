@@ -1,0 +1,20 @@
+generated: '2026-09-27'
+method: searched
+source: https://www.deeplead.io/pricing
+name: Deeplead
+plans:
+  - name: Monthly
+    description: ""
+    price_text: "$37 /month"
+    price: 37
+    currency: USD
+    billing_period: month
+    features:
+      - Unlimited searches
+      - Unlimited sending
+      - 2,000 credits / month included
+      - Email verification included
+      - Unlimited email accounts
+      - Warmup & unified inbox included
+      - Chat support
+    limits: []

@@ -1,0 +1,67 @@
+generated: '2026-09-27'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 4
+  own: 3
+  other_domain: 1
+  platform: 0
+  roles:
+  - api
+  - docs
+  - status
+  - website
+hosts:
+- host: api.deeplead.io
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: deeplead.io
+  role: api
+  relation: own
+- host: status.deeplead.io
+  found_by:
+  - probed
+  - site-links
+  - contract-discovery
+  - well-known
+  types: []
+  serves: []
+  registrable_domain: deeplead.io
+  role: status
+  relation: own
+- host: www.deelead.io
+  found_by:
+  - pointer
+  types:
+  - GettingStarted
+  serves: []
+  registrable_domain: deelead.io
+  role: docs
+  relation: other-domain
+- host: www.deeplead.io
+  found_by:
+  - pointer
+  - apis[]
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Support
+  - Website
+  - Documentation
+  - APIReference
+  - Blog
+  - Pricing
+  - TermsOfService
+  - PrivacyPolicy
+  serves:
+  - docs
+  - hosting
+  vendor: vercel
+  registrable_domain: deeplead.io
+  role: website
+  relation: own

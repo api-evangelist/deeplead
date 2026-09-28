@@ -1,23 +1,92 @@
 aid: deeplead
+
 name: Deeplead
-description: 'Deeplead is a company surfaced via the API Evangelist harvest backlog (source: new-submission)
-  and added to the network as a stub for full-pipeline profiling.'
+
+image: https://deeplead.io/opengraph-image
+
+description: Deeplead provides an automated cold‑email outreach platform that helps businesses generate qualified leads by analyzing prospect
+  websites, LinkedIn, and other data sources. The service combines AI‑generated email copy, inbox warm‑up, deliverability testing, and multi‑channel
+  follow‑ups to accelerate the sales pipeline. Users input their target market and receive personalized outreach campaigns that aim to secure
+  replies within days, backed by analytics on open rates, response rates, and ROI.
+
 url: https://raw.githubusercontent.com/api-evangelist/deeplead/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:new-submission
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-09-27 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-09-27'
+
 modified: '2026-09-27'
+
 tags:
 - Company
-apis: []
+- LeadGeneration
+- ColdEmail
+- AI
+- SalesAutomation
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: Plans
+  url: plans/deeplead-plans-pricing.yml
+- type: MCPServer
+  url: mcp/deeplead-mcp.yml
+- type: WellKnown
+  url: well-known/deeplead-well-known.yml
+- type: Hosts
+  url: hosts/deeplead-hosts.yml
+- type: Vendors
+  url: vendors/deeplead-vendors.yml
+- type: Support
+  url: https://www.deeplead.io/help
+- type: DomainSecurity
+  url: security/deeplead-domain-security.yml
 - type: Website
   url: https://www.deeplead.io/
+- type: Documentation
+  url: https://www.deeplead.io/info/about
+- type: APIReference
+  url: https://www.deeplead.io/mcp
+- type: GettingStarted
+  url: https://www.deelead.io/
+- type: Blog
+  url: https://www.deeplead.io/blog
+- type: Pricing
+  url: https://www.deeplead.io/pricing
+- type: TermsOfService
+  url: https://www.deeplead.io/terms
+- type: PrivacyPolicy
+  url: https://www.deeplead.io/privacy-policy
+
+apis:
+- name: Deeplead MCP API
+  description: Machine‑Control‑Protocol API providing access to Deeplead's lead generation functions.
+  humanURL: https://www.deeplead.io/mcp
+  baseURL: null
+  aid: deeplead:deeplead-mcp-api
+
+x-coverage:
+  state: unreadable
+  reason: no-machine-readable-spec
+  detail: Deeplead's MCP API page provides only HTML documentation without a machine‑readable OpenAPI or other contract.
+  evidence:
+  - url: https://www.deeplead.io/mcp
+    status: 200
+  checked: '2026-09-27'
+x-enrichment:
+  date: '2026-09-27'
+  status: enriched
+  artifacts_added: 10
+  pass: modular-v1
+  engine: identity=local,contract=local,surfaces=local,docs=local,regulatory=local
