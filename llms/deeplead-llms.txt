@@ -1,0 +1,42 @@
+# Deeplead
+
+> Deeplead finds B2B customers and runs cold email outreach to them: search local businesses, companies and people, find decision makers with verified work emails and phone numbers, and send personalized campaigns from warmed-up inboxes with one inbox for every reply.
+
+The same data is available to AI agents over an MCP server (https://www.deeplead.io/api/mcp, OAuth or API key) and a REST API (https://www.deeplead.io/api/v1, API key as a Bearer token). Calls spend the account's credits like the app does.
+
+## API and MCP
+
+- [Developer overview](https://www.deeplead.io/developers): what the API does and how to get a key
+- [MCP server](https://www.deeplead.io/mcp): connecting Claude, ChatGPT, Cursor and other clients, with the tool list
+- [API reference](https://www.deeplead.io/api/v1/docs): every endpoint with request and response schemas
+- [OpenAPI spec](https://www.deeplead.io/api/v1/spec.json): machine-readable OpenAPI 3.1 contract
+- [API catalog](https://www.deeplead.io/.well-known/api-catalog): RFC 9727 linkset of the APIs above
+
+## MCP tools
+
+- businesses_search: Search local businesses from Google Business Profiles
+- organizations_search: Search organizations, or look them up by domain
+- organizations_enrich: Enrich a company from its domain
+- organizations_find_decision_maker: Find the decision maker of an organization with a verified email
+- persons_search: Search persons with their emails and phones
+- persons_lookup: Look up one person by LinkedIn URL, email, or name and company domain
+- persons_find_email: Find a person's work email by LinkedIn URL, or full name and company domain
+- persons_find_phone: Find a person's phone number by LinkedIn URL, email, or full name and company domain
+- contacts_create: Save your own contacts or organizations
+- contacts_list: List your contacts in a stable order; page with nextBefore
+- deliverability_create_test: Start an inbox placement test for a mailbox you send from
+- deliverability_get_test: Where the test email landed at each seed mailbox
+- credits_get: Current credit balance
+
+## Product
+
+- [Pricing](https://www.deeplead.io/pricing)
+- [Help center](https://www.deeplead.io/help)
+- [Blog](https://www.deeplead.io/blog)
+- [About](https://www.deeplead.io/info/about)
+
+## Legal and privacy
+
+- [Terms](https://www.deeplead.io/terms)
+- [Privacy policy](https://www.deeplead.io/info/privacy-policy)
+- [Opt out of the B2B database](https://www.deeplead.io/opt-out)

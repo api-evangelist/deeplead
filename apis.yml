@@ -4,10 +4,10 @@ name: Deeplead
 
 image: https://deeplead.io/opengraph-image
 
-description: Deeplead provides an automated cold‑email outreach platform that helps businesses generate qualified leads by analyzing prospect
-  websites, LinkedIn, and other data sources. The service combines AI‑generated email copy, inbox warm‑up, deliverability testing, and multi‑channel
-  follow‑ups to accelerate the sales pipeline. Users input their target market and receive personalized outreach campaigns that aim to secure
-  replies within days, backed by analytics on open rates, response rates, and ROI.
+description: Deeplead finds B2B customers and runs cold email outreach to them. It searches local businesses, companies and people,
+  finds decision makers with verified work emails and phone numbers, and sends personalized campaigns from warmed-up inboxes with one
+  inbox for every reply. The same data is available to developers and AI agents through a REST API with an OpenAPI 3.1 contract and a
+  remote MCP server, both authenticated with an API key or OAuth.
 
 url: https://raw.githubusercontent.com/api-evangelist/deeplead/refs/heads/main/apis.yml
 
@@ -61,11 +61,21 @@ common:
 - type: Website
   url: https://www.deeplead.io/
 - type: Documentation
-  url: https://www.deeplead.io/info/about
+  url: https://www.deeplead.io/developers
 - type: APIReference
-  url: https://www.deeplead.io/mcp
+  url: https://www.deeplead.io/api/v1/docs
 - type: GettingStarted
-  url: https://www.deelead.io/
+  url: https://www.deeplead.io/developers
+- type: SignUp
+  url: https://www.deeplead.io/login
+- type: APICatalog
+  url: https://www.deeplead.io/.well-known/api-catalog
+- type: LLMsTxt
+  url: llms/deeplead-llms.txt
+- type: SecurityTxt
+  url: https://www.deeplead.io/.well-known/security.txt
+- type: RateLimits
+  url: https://www.deeplead.io/api/v1/docs
 - type: Blog
   url: https://www.deeplead.io/blog
 - type: Pricing
@@ -76,20 +86,44 @@ common:
   url: https://www.deeplead.io/privacy-policy
 
 apis:
-- name: Deeplead MCP API
-  description: Machine‑Control‑Protocol API providing access to Deeplead's lead generation functions.
+- name: Deeplead API
+  description: REST API to search local businesses, companies and people, enrich companies, find decision makers, work emails
+    and phone numbers, manage contacts and run inbox placement tests. API key as a Bearer token, 120 requests per minute per account.
+  humanURL: https://www.deeplead.io/api/v1/docs
+  baseURL: https://www.deeplead.io/api/v1
+  aid: deeplead:deeplead-api
+  tags:
+  - Lead Generation
+  - Data Enrichment
+  - Email Finder
+  properties:
+  - type: OpenAPI
+    url: openapi/deeplead-api-openapi.json
+  - type: OpenAPI
+    url: https://www.deeplead.io/api/v1/spec.json
+  - type: Documentation
+    url: https://www.deeplead.io/developers
+- name: Deeplead MCP Server
+  description: Remote Model Context Protocol server exposing the Deeplead API as tools to Claude, ChatGPT, Cursor and other agents.
+    Sign in with OAuth (dynamic client registration supported) or pass an API key as a Bearer token.
   humanURL: https://www.deeplead.io/mcp
-  baseURL: null
-  aid: deeplead:deeplead-mcp-api
+  baseURL: https://www.deeplead.io/api/mcp
+  aid: deeplead:deeplead-mcp-server
+  properties:
+  - type: MCPServer
+    url: mcp/deeplead-mcp.yml
+  - type: Documentation
+    url: https://www.deeplead.io/mcp
 
 x-coverage:
-  state: unreadable
-  reason: no-machine-readable-spec
-  detail: Deeplead's MCP API page provides only HTML documentation without a machine‑readable OpenAPI or other contract.
+  state: readable
+  reason: openapi-published
+  detail: Deeplead publishes an OpenAPI 3.1 contract at https://www.deeplead.io/api/v1/spec.json, linked from /.well-known/api-catalog
+    and /llms.txt.
   evidence:
-  - url: https://www.deeplead.io/mcp
+  - url: https://www.deeplead.io/api/v1/spec.json
     status: 200
-  checked: '2026-09-27'
+  checked: '2026-10-08'
 x-enrichment:
   date: '2026-09-27'
   status: enriched
