@@ -1,0 +1,32 @@
+{
+  "provider": "deeplead",
+  "sources": [
+    "deeplead-api-openapi.json"
+  ],
+  "outputs": [
+    "deeplead-account-api-openapi.yml",
+    "deeplead-businesses-api-openapi.yml",
+    "deeplead-contacts-api-openapi.yml",
+    "deeplead-deliverability-api-openapi.yml",
+    "deeplead-organizations-api-openapi.yml",
+    "deeplead-persons-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/deeplead-api-openapi.json"
+  ],
+  "errors": [],
+  "warnings": [
+    "no openapi/_original/ archive: this run re-split PREVIOUSLY REFINED output, so any base URL it carries is inherited from an earlier pass rather than read from a document the provider published"
+  ],
+  "notes": [
+    "deeplead-api-openapi.json: upgraded openapi 3.1.1 -> OpenAPI 3.2.0",
+    "deeplead-api-openapi.json: declared missing tag: Account",
+    "deeplead-api-openapi.json: declared missing tag: Businesses",
+    "deeplead-api-openapi.json: declared missing tag: Contacts",
+    "deeplead-api-openapi.json: declared missing tag: Deliverability",
+    "deeplead-api-openapi.json: declared missing tag: Organizations",
+    "deeplead-api-openapi.json: declared missing tag: Persons",
+    "apis.yml register: written (+6 apis, 7 total)"
+  ],
+  "skipped": []
+}

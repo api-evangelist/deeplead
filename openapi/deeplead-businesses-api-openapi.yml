@@ -1,0 +1,252 @@
+openapi: 3.2.0
+info:
+  title: Deeplead Businesses API
+  version: 1.0.0
+  description: Search local businesses, companies and people, and find decision makers with verified work emails and phone numbers. Authenticate with an API key as a Bearer token; up to 120 requests per minute per account, answered with 429 beyond that.
+  contact:
+    email: support@deeplead.io
+    url: https://www.deeplead.io/developers
+  termsOfService: https://www.deeplead.io/terms
+servers:
+- url: https://www.deeplead.io/api/v1
+security:
+- apiKey: []
+tags:
+- name: Businesses
+paths:
+  /businesses/search:
+    post:
+      operationId: businesses.search
+      summary: Search local businesses from Google Business Profiles
+      description: 23M+ businesses with ratings, reviews, website contacts, socials and ad pixels. 30 per page. Charges 1 credit per business with an email or phone and 0.5 per business without. saveToContacts also stores them in your contacts. Send an Idempotency-Key header to make retries safe.
+      tags:
+      - Businesses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                categories:
+                  type: array
+                  minItems: 1
+                  maxItems: 10
+                  items:
+                    type: string
+                    minLength: 1
+                  description: Google business categories, e.g. ["Dentist"]
+                location:
+                  type: string
+                  minLength: 1
+                  description: A city ("Austin, TX"), a US state ("Texas") or a country ("Germany")
+                page:
+                  type: integer
+                  minimum: 1
+                  maximum: 100
+                  default: 1
+                  description: Page number, starting at 1; up to 30 businesses per page
+                radiusMiles:
+                  type: number
+                  minimum: 1
+                  maximum: 100
+                  description: Around a city; default 30
+                keyword:
+                  type: string
+                  description: Matched against the business name and categories
+                excludedCategories:
+                  type: array
+                  items:
+                    type: string
+                  description: Google business categories to exclude
+                rating:
+                  enum:
+                  - under-4
+                  - 4-to-4.5
+                  - 4.5-plus
+                  type: string
+                  description: Google rating band to match
+                reviews:
+                  enum:
+                  - under-10
+                  - 10-to-100
+                  - 100-plus
+                  type: string
+                  description: Google review-count band to match
+                require:
+                  type: object
+                  propertyNames:
+                    enum:
+                    - metaAds
+                    - googleAds
+                    - chatgptAds
+                    - gAnalytics
+                    - tiktokPixel
+                    - claimed
+                    - website
+                    - email
+                    - phone
+                    type: string
+                  additionalProperties:
+                    type: boolean
+                  description: 'e.g. { "email": true, "metaAds": false }; false matches only businesses checked and found without it'
+                saveToContacts:
+                  type: boolean
+                  default: false
+                  description: Save returned businesses to your Deeplead contacts
+              required:
+              - categories
+              - location
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  chargedCredits:
+                    type: number
+                  businesses:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        businessId:
+                          type: string
+                        name:
+                          type: string
+                        categories:
+                          type: array
+                          items:
+                            type: string
+                        address:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        city:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        country:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        website:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        email:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        emails:
+                          type: array
+                          items:
+                            type: string
+                        phone:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        phones:
+                          type: array
+                          items:
+                            type: string
+                        rating:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        reviewCount:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        reviewsByStars:
+                          type: array
+                          items:
+                            anyOf:
+                            - type: number
+                            - type: 'null'
+                          description: Counts of 1 to 5 star reviews
+                        googleProfileClaimed:
+                          anyOf:
+                          - type: boolean
+                          - type: 'null'
+                        socials:
+                          type: object
+                          properties:
+                            facebook:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            instagram:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            linkedin:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            tiktok:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                          required:
+                          - facebook
+                          - instagram
+                          - linkedin
+                          - tiktok
+                        adPixels:
+                          type: object
+                          properties:
+                            meta:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            googleAds:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            googleAnalytics:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            tiktok:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            chatgpt:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                          required:
+                          - meta
+                          - googleAds
+                          - googleAnalytics
+                          - tiktok
+                          - chatgpt
+                      required:
+                      - businessId
+                      - name
+                      - categories
+                      - address
+                      - city
+                      - country
+                      - website
+                      - email
+                      - emails
+                      - phone
+                      - phones
+                      - rating
+                      - reviewCount
+                      - reviewsByStars
+                      - googleProfileClaimed
+                      - socials
+                      - adPixels
+                required:
+                - chargedCredits
+                - businesses
+components:
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer

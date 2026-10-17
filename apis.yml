@@ -86,26 +86,11 @@ common:
   url: https://www.deeplead.io/privacy-policy
 
 apis:
-- name: Deeplead API
-  description: REST API to search local businesses, companies and people, enrich companies, find decision makers, work emails
-    and phone numbers, manage contacts and run inbox placement tests. API key as a Bearer token, 120 requests per minute per account.
-  humanURL: https://www.deeplead.io/api/v1/docs
-  baseURL: https://www.deeplead.io/api/v1
-  aid: deeplead:deeplead-api
-  tags:
-  - Lead Generation
-  - Data Enrichment
-  - Email Finder
-  properties:
-  - type: OpenAPI
-    url: openapi/deeplead-api-openapi.json
-  - type: OpenAPI
-    url: https://www.deeplead.io/api/v1/spec.json
-  - type: Documentation
-    url: https://www.deeplead.io/developers
 - name: Deeplead MCP Server
-  description: Remote Model Context Protocol server exposing the Deeplead API as tools to Claude, ChatGPT, Cursor and other agents.
-    Sign in with OAuth (dynamic client registration supported) or pass an API key as a Bearer token.
+  description: >-
+    Remote Model Context Protocol server exposing the Deeplead API as tools to Claude, ChatGPT, Cursor
+    and other agents. Sign in with OAuth (dynamic client registration supported) or pass an API key as
+    a Bearer token.
   humanURL: https://www.deeplead.io/mcp
   baseURL: https://www.deeplead.io/api/mcp
   aid: deeplead:deeplead-mcp-server
@@ -114,7 +99,78 @@ apis:
     url: mcp/deeplead-mcp.yml
   - type: Documentation
     url: https://www.deeplead.io/mcp
-
+- aid: deeplead:deeplead-account-api
+  name: Deeplead Account API
+  description: The Account API from Deeplead — 1 operation(s) for account.
+  humanURL: https://www.deeplead.io/api/v1/docs
+  baseURL: https://www.deeplead.io/api/v1
+  tags:
+  - Account
+  properties:
+  - type: OpenAPI
+    url: openapi/deeplead-account-api-openapi.yml
+  - type: Documentation
+    url: https://www.deeplead.io/developers
+- aid: deeplead:deeplead-businesses-api
+  name: Deeplead Businesses API
+  description: The Businesses API from Deeplead — 1 operation(s) for businesses.
+  humanURL: https://www.deeplead.io/api/v1/docs
+  baseURL: https://www.deeplead.io/api/v1
+  tags:
+  - Businesses
+  properties:
+  - type: OpenAPI
+    url: openapi/deeplead-businesses-api-openapi.yml
+  - type: Documentation
+    url: https://www.deeplead.io/developers
+- aid: deeplead:deeplead-contacts-api
+  name: Deeplead Contacts API
+  description: The Contacts API from Deeplead — 1 operation(s) for contacts.
+  humanURL: https://www.deeplead.io/api/v1/docs
+  baseURL: https://www.deeplead.io/api/v1
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/deeplead-contacts-api-openapi.yml
+  - type: Documentation
+    url: https://www.deeplead.io/developers
+- aid: deeplead:deeplead-deliverability-api
+  name: Deeplead Deliverability API
+  description: The Deliverability API from Deeplead — 2 operation(s) for deliverability.
+  humanURL: https://www.deeplead.io/api/v1/docs
+  baseURL: https://www.deeplead.io/api/v1
+  tags:
+  - Deliverability
+  properties:
+  - type: OpenAPI
+    url: openapi/deeplead-deliverability-api-openapi.yml
+  - type: Documentation
+    url: https://www.deeplead.io/developers
+- aid: deeplead:deeplead-organizations-api
+  name: Deeplead Organizations API
+  description: The Organizations API from Deeplead — 3 operation(s) for organizations.
+  humanURL: https://www.deeplead.io/api/v1/docs
+  baseURL: https://www.deeplead.io/api/v1
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/deeplead-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://www.deeplead.io/developers
+- aid: deeplead:deeplead-persons-api
+  name: Deeplead Persons API
+  description: The Persons API from Deeplead — 5 operation(s) for persons.
+  humanURL: https://www.deeplead.io/api/v1/docs
+  baseURL: https://www.deeplead.io/api/v1
+  tags:
+  - Persons
+  properties:
+  - type: OpenAPI
+    url: openapi/deeplead-persons-api-openapi.yml
+  - type: Documentation
+    url: https://www.deeplead.io/developers
 x-coverage:
   state: readable
   reason: openapi-published

@@ -1,0 +1,720 @@
+openapi: 3.2.0
+info:
+  title: Deeplead Organizations API
+  version: 1.0.0
+  description: Search local businesses, companies and people, and find decision makers with verified work emails and phone numbers. Authenticate with an API key as a Bearer token; up to 120 requests per minute per account, answered with 429 beyond that.
+  contact:
+    email: support@deeplead.io
+    url: https://www.deeplead.io/developers
+  termsOfService: https://www.deeplead.io/terms
+servers:
+- url: https://www.deeplead.io/api/v1
+security:
+- apiKey: []
+tags:
+- name: Organizations
+paths:
+  /organizations/search:
+    post:
+      operationId: organizations.search
+      summary: Search organizations, or look them up by domain
+      description: Charges 0.5 credits per returned organization. limit 0 returns only totalCount, free. Send an Idempotency-Key header to make retries safe.
+      tags:
+      - Organizations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  minLength: 1
+                  description: Free text matched against company name, description and keywords
+                semantic:
+                  type: string
+                  minLength: 1
+                  description: What the company is and sells, matched by meaning, e.g. "outsourced medical billing for clinics"
+                domains:
+                  type: array
+                  maxItems: 100
+                  items:
+                    type: string
+                  description: Look companies up by domain, e.g. ["stripe.com"]
+                hqCountry:
+                  type: array
+                  items:
+                    type: string
+                  description: ISO alpha-2 country codes of the headquarters, e.g. ["US", "DE"]
+                hqState:
+                  type: array
+                  items:
+                    type: string
+                  description: US state names or codes of the headquarters
+                employeeBands:
+                  type: array
+                  items:
+                    enum:
+                    - 1-10
+                    - 11-50
+                    - 51-200
+                    - 201-500
+                    - 501-1,000
+                    - 1,001-5,000
+                    - 5,001-10,000
+                    - 10,001+
+                    type: string
+                  description: Headcount bands
+                revenueRange:
+                  type: array
+                  items:
+                    enum:
+                    - <$1M
+                    - $1M to <$10M
+                    - $10M to <$50M
+                    - $50M to <$100M
+                    - $100M to <$1B
+                    - $1B+
+                    type: string
+                  description: Annual company revenue bands
+                industryNaicsDirect:
+                  type: array
+                  items:
+                    type: string
+                  description: NAICS codes
+                technologies:
+                  type: array
+                  items:
+                    type: string
+                  description: Technologies used by the company
+                foundedAfter:
+                  type: integer
+                  minimum: -9007199254740991
+                  maximum: 9007199254740991
+                  description: Earliest founding year to include
+                foundedBefore:
+                  type: integer
+                  minimum: -9007199254740991
+                  maximum: 9007199254740991
+                  description: Latest founding year to include
+                monthlyVisitsMin:
+                  type: integer
+                  minimum: 0
+                  maximum: 9007199254740991
+                  description: Minimum monthly website visits; known for about 1 in 8 US companies, the rest are excluded
+                employeeGrowthMin:
+                  type: integer
+                  minimum: -9007199254740991
+                  maximum: 9007199254740991
+                  description: Minimum employee growth on LinkedIn in percent, e.g. 10; known for about 1 in 13 US companies
+                fundedAfter:
+                  type: integer
+                  minimum: -9007199254740991
+                  maximum: 9007199254740991
+                  description: Year of the last funding round, at least; known for about 1 in 100 US companies
+                hqCity:
+                  type: array
+                  items:
+                    type: string
+                  description: City names of the headquarters, e.g. ["Austin"]
+                limit:
+                  type: integer
+                  minimum: 0
+                  maximum: 25
+                  default: 25
+                  description: Maximum companies to return; 0 returns only a free count
+                offset:
+                  type: integer
+                  minimum: 0
+                  maximum: 10000
+                  default: 0
+                  description: Number of matching companies to skip for pagination
+                includeWithoutWebsite:
+                  type: boolean
+                  default: false
+                  description: Include companies without websites in search results
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalCount:
+                    type: number
+                  chargedCredits:
+                    type: number
+                  organizations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        organizationId:
+                          type: string
+                        name:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        domain:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        website:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        websiteAlive:
+                          anyOf:
+                          - type: boolean
+                          - type: 'null'
+                        websiteTitle:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        websiteDescription:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        linkedin:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        linkedinDescription:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        description:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        industry:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        naicsCodes:
+                          type: array
+                          items:
+                            type: string
+                        keywords:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        technologies:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        employeeCount:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        employeeMin:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        employeeMax:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        revenueRange:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        monthlyVisits:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                          description: Estimated monthly website visits
+                        monthlyGoogleAdSpend:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                          description: Estimated monthly Google Ads spend in USD
+                        employeeGrowthRate:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                          description: Employee growth on LinkedIn in percent
+                        lastFunding:
+                          type: object
+                          properties:
+                            type:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                              description: e.g. Seed Round, Series A, Private Equity Round
+                            date:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            amount:
+                              anyOf:
+                              - type: number
+                              - type: 'null'
+                              description: USD
+                          required:
+                          - type
+                          - date
+                          - amount
+                        totalFunding:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                          description: USD
+                        foundedYear:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        hqCity:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        hqState:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        hqCountry:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        emails:
+                          type: array
+                          items:
+                            type: string
+                          description: Found on the company website
+                        phones:
+                          type: array
+                          items:
+                            type: string
+                          description: Found on the company website
+                        socials:
+                          type: object
+                          properties:
+                            facebook:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            instagram:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            linkedin:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            x:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            tiktok:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            youtube:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                          required:
+                          - facebook
+                          - instagram
+                          - linkedin
+                          - x
+                          - tiktok
+                          - youtube
+                        adPixels:
+                          type: object
+                          properties:
+                            meta:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            googleAds:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            googleAnalytics:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            tiktok:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            chatgpt:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                          required:
+                          - meta
+                          - googleAds
+                          - googleAnalytics
+                          - tiktok
+                          - chatgpt
+                          description: true/false where the website was checked, null where it never was
+                      required:
+                      - organizationId
+                      - name
+                      - domain
+                      - website
+                      - websiteAlive
+                      - websiteTitle
+                      - websiteDescription
+                      - linkedin
+                      - linkedinDescription
+                      - description
+                      - industry
+                      - naicsCodes
+                      - keywords
+                      - technologies
+                      - employeeCount
+                      - employeeMin
+                      - employeeMax
+                      - revenueRange
+                      - monthlyVisits
+                      - monthlyGoogleAdSpend
+                      - employeeGrowthRate
+                      - lastFunding
+                      - totalFunding
+                      - foundedYear
+                      - hqCity
+                      - hqState
+                      - hqCountry
+                      - emails
+                      - phones
+                      - socials
+                      - adPixels
+                required:
+                - totalCount
+                - chargedCredits
+                - organizations
+  /organizations/enrich:
+    post:
+      operationId: organizations.enrich
+      summary: Enrich a company from its domain
+      description: Returns the company's firmographics, socials and website data. Charges 0.5 credits only when the company is found. Send an Idempotency-Key header to make retries safe.
+      tags:
+      - Organizations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+                  minLength: 3
+                  description: Company domain or website URL, e.g. "stripe.com"
+              required:
+              - domain
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  found:
+                    type: boolean
+                  chargedCredits:
+                    type: number
+                  organization:
+                    anyOf:
+                    - type: object
+                      properties:
+                        organizationId:
+                          type: string
+                        name:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        domain:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        website:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        websiteAlive:
+                          anyOf:
+                          - type: boolean
+                          - type: 'null'
+                        websiteTitle:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        websiteDescription:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        linkedin:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        linkedinDescription:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        description:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        industry:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        naicsCodes:
+                          type: array
+                          items:
+                            type: string
+                        keywords:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        technologies:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        employeeCount:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        employeeMin:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        employeeMax:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        revenueRange:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        monthlyVisits:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                          description: Estimated monthly website visits
+                        monthlyGoogleAdSpend:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                          description: Estimated monthly Google Ads spend in USD
+                        employeeGrowthRate:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                          description: Employee growth on LinkedIn in percent
+                        lastFunding:
+                          type: object
+                          properties:
+                            type:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                              description: e.g. Seed Round, Series A, Private Equity Round
+                            date:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            amount:
+                              anyOf:
+                              - type: number
+                              - type: 'null'
+                              description: USD
+                          required:
+                          - type
+                          - date
+                          - amount
+                        totalFunding:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                          description: USD
+                        foundedYear:
+                          anyOf:
+                          - type: number
+                          - type: 'null'
+                        hqCity:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        hqState:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        hqCountry:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        emails:
+                          type: array
+                          items:
+                            type: string
+                          description: Found on the company website
+                        phones:
+                          type: array
+                          items:
+                            type: string
+                          description: Found on the company website
+                        socials:
+                          type: object
+                          properties:
+                            facebook:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            instagram:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            linkedin:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            x:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            tiktok:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                            youtube:
+                              anyOf:
+                              - type: string
+                              - type: 'null'
+                          required:
+                          - facebook
+                          - instagram
+                          - linkedin
+                          - x
+                          - tiktok
+                          - youtube
+                        adPixels:
+                          type: object
+                          properties:
+                            meta:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            googleAds:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            googleAnalytics:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            tiktok:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                            chatgpt:
+                              anyOf:
+                              - type: boolean
+                              - type: 'null'
+                          required:
+                          - meta
+                          - googleAds
+                          - googleAnalytics
+                          - tiktok
+                          - chatgpt
+                          description: true/false where the website was checked, null where it never was
+                      required:
+                      - organizationId
+                      - name
+                      - domain
+                      - website
+                      - websiteAlive
+                      - websiteTitle
+                      - websiteDescription
+                      - linkedin
+                      - linkedinDescription
+                      - description
+                      - industry
+                      - naicsCodes
+                      - keywords
+                      - technologies
+                      - employeeCount
+                      - employeeMin
+                      - employeeMax
+                      - revenueRange
+                      - monthlyVisits
+                      - monthlyGoogleAdSpend
+                      - employeeGrowthRate
+                      - lastFunding
+                      - totalFunding
+                      - foundedYear
+                      - hqCity
+                      - hqState
+                      - hqCountry
+                      - emails
+                      - phones
+                      - socials
+                      - adPixels
+                    - type: 'null'
+                required:
+                - found
+                - chargedCredits
+                - organization
+  /organizations/{organizationId}/decision-maker:
+    post:
+      operationId: organizations.findDecisionMaker
+      summary: Find the decision maker of an organization with a verified email
+      description: Charges 2 credits only when a decision maker is found. Can take a few minutes. Send an Idempotency-Key header to make retries safe.
+      tags:
+      - Organizations
+      parameters:
+      - name: organizationId
+        in: path
+        required: true
+        schema:
+          type: string
+          minLength: 1
+          description: Company ID returned by organization search or enrichment
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  found:
+                    type: boolean
+                  creditsCharged:
+                    type: number
+                  decisionMaker:
+                    anyOf:
+                    - type: object
+                      properties:
+                        name:
+                          type: string
+                        position:
+                          anyOf:
+                          - type: string
+                          - type: 'null'
+                        linkedin:
+                          type: string
+                        email:
+                          type: string
+                      required:
+                      - name
+                      - position
+                      - linkedin
+                      - email
+                    - type: 'null'
+                required:
+                - found
+                - creditsCharged
+                - decisionMaker
+components:
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer

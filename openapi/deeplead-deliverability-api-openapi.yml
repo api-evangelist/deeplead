@@ -1,0 +1,141 @@
+openapi: 3.2.0
+info:
+  title: Deeplead Deliverability API
+  version: 1.0.0
+  description: Search local businesses, companies and people, and find decision makers with verified work emails and phone numbers. Authenticate with an API key as a Bearer token; up to 120 requests per minute per account, answered with 429 beyond that.
+  contact:
+    email: support@deeplead.io
+    url: https://www.deeplead.io/developers
+  termsOfService: https://www.deeplead.io/terms
+servers:
+- url: https://www.deeplead.io/api/v1
+security:
+- apiKey: []
+tags:
+- name: Deliverability
+paths:
+  /deliverability/tests:
+    post:
+      operationId: deliverability.createTest
+      summary: Start an inbox placement test for a mailbox you send from
+      description: Send one email from the mailbox you want to test to every address in seedEmails, with the testId anywhere in the body, then poll /deliverability/tests/{testId} about once a minute to see whether it landed in the inbox, spam or a tab at Gmail, Outlook and other providers. Most seeds report within 2-5 minutes; the test closes 60 minutes after it starts. Charges 25 credits. Send an Idempotency-Key header to make retries safe.
+      tags:
+      - Deliverability
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  testId:
+                    type: string
+                    description: Put this anywhere in the body of the test email
+                  seedEmails:
+                    type: array
+                    items:
+                      type: string
+                    description: Send the test email to every one of these addresses
+                  chargedCredits:
+                    type: number
+                  closesAt:
+                    type: string
+                required:
+                - testId
+                - seedEmails
+                - chargedCredits
+                - closesAt
+  /deliverability/tests/{testId}:
+    get:
+      operationId: deliverability.getTest
+      summary: Where the test email landed at each seed mailbox
+      description: Poll about once a minute while status is waiting. placement is inbox, spam, promotions, social, updates or forums, or missing while the email has not arrived; score is the inbox share from 0 to 10 once the test is completed. rspamd is the content filter verdict with its matched rules, when a seed reports one.
+      tags:
+      - Deliverability
+      parameters:
+      - name: testId
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^dlt-[0-9a-f]{24}$
+          description: testId returned by /deliverability/tests
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  testId:
+                    type: string
+                  status:
+                    enum:
+                    - waiting
+                    - completed
+                    type: string
+                  closesAt:
+                    type: string
+                  score:
+                    anyOf:
+                    - type: number
+                    - type: 'null'
+                  seeds:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        email:
+                          type: string
+                        provider:
+                          type: string
+                        placement:
+                          type: string
+                      required:
+                      - email
+                      - provider
+                      - placement
+                  rspamd:
+                    anyOf:
+                    - type: object
+                      properties:
+                        score:
+                          type: number
+                        requiredScore:
+                          type: number
+                        action:
+                          type: string
+                        symbols:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              name:
+                                type: string
+                              score:
+                                type: number
+                              description:
+                                type: string
+                            required:
+                            - name
+                            - score
+                      required:
+                      - score
+                      - requiredScore
+                      - action
+                      - symbols
+                    - type: 'null'
+                required:
+                - testId
+                - status
+                - closesAt
+                - score
+                - seeds
+                - rspamd
+components:
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
