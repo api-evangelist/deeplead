@@ -1,0 +1,12 @@
+{
+ "url": "https://www.deeplead.io/api/v1/spec.json",
+ "requested_url": "https://www.deeplead.io/api/v1/spec.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 39978,
+ "sha256": "089528470fe66e85501d498f540c49c54c582cca89b042b1ffd5b156b457a460",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
