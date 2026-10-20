@@ -1,0 +1,2532 @@
+{
+  "endpoint": "https://www.deeplead.io/api/mcp",
+  "captured": "2026-10-20",
+  "method": "initialize + tools/list (anonymous, no tool called; roadmap#992)",
+  "protocol_version": "2025-06-18",
+  "server_info": {
+    "name": "Deeplead",
+    "version": "1.1.1",
+    "icons": [
+      {
+        "src": "https://www.deeplead.io/web-app-manifest-512x512.png",
+        "mimeType": "image/png",
+        "sizes": [
+          "512x512"
+        ]
+      }
+    ]
+  },
+  "result": {
+    "tools": [
+      {
+        "name": "businesses_search",
+        "title": "Search local businesses from Google Business Profiles",
+        "description": "Search local businesses from Google Business Profiles. 23M+ businesses with ratings, reviews, website contacts, socials and ad pixels. 30 per page. Charges 1 credit per business with an email or phone and 0.5 per business without. saveToContacts also stores them in your contacts.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "categories": {
+              "minItems": 1,
+              "maxItems": 10,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "description": "Google business categories, e.g. [\"Dentist\"]"
+            },
+            "location": {
+              "type": "string",
+              "minLength": 1,
+              "description": "A city (\"Austin, TX\"), a US state (\"Texas\") or a country (\"Germany\")"
+            },
+            "page": {
+              "default": 1,
+              "description": "Page number, starting at 1; up to 30 businesses per page",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "radiusMiles": {
+              "description": "Around a city; default 30",
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "keyword": {
+              "description": "Matched against the business name and categories",
+              "type": "string"
+            },
+            "excludedCategories": {
+              "description": "Google business categories to exclude",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "rating": {
+              "description": "Google rating band to match",
+              "type": "string",
+              "enum": [
+                "under-4",
+                "4-to-4.5",
+                "4.5-plus"
+              ]
+            },
+            "reviews": {
+              "description": "Google review-count band to match",
+              "type": "string",
+              "enum": [
+                "under-10",
+                "10-to-100",
+                "100-plus"
+              ]
+            },
+            "require": {
+              "description": "e.g. { \"email\": true, \"metaAds\": false }; false matches only businesses checked and found without it",
+              "type": "object",
+              "propertyNames": {
+                "type": "string",
+                "enum": [
+                  "metaAds",
+                  "googleAds",
+                  "chatgptAds",
+                  "gAnalytics",
+                  "tiktokPixel",
+                  "claimed",
+                  "website",
+                  "email",
+                  "phone"
+                ]
+              },
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            },
+            "saveToContacts": {
+              "default": false,
+              "description": "Save returned businesses to your Deeplead contacts",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "categories",
+            "location"
+          ]
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "chargedCredits": {
+              "type": "number"
+            },
+            "businesses": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "businessId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "categories": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "address": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "city": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "country": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "website": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "email": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "emails": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "phone": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "phones": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "rating": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "reviewCount": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "reviewsByStars": {
+                    "type": "array",
+                    "items": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "description": "Counts of 1 to 5 star reviews"
+                  },
+                  "googleProfileClaimed": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "socials": {
+                    "type": "object",
+                    "properties": {
+                      "facebook": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "instagram": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "linkedin": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "tiktok": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "facebook",
+                      "instagram",
+                      "linkedin",
+                      "tiktok"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "adPixels": {
+                    "type": "object",
+                    "properties": {
+                      "meta": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "googleAds": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "googleAnalytics": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "tiktok": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "chatgpt": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "meta",
+                      "googleAds",
+                      "googleAnalytics",
+                      "tiktok",
+                      "chatgpt"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "businessId",
+                  "name",
+                  "categories",
+                  "address",
+                  "city",
+                  "country",
+                  "website",
+                  "email",
+                  "emails",
+                  "phone",
+                  "phones",
+                  "rating",
+                  "reviewCount",
+                  "reviewsByStars",
+                  "googleProfileClaimed",
+                  "socials",
+                  "adPixels"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "chargedCredits",
+            "businesses"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "organizations_search",
+        "title": "Search organizations, or look them up by domain",
+        "description": "Search organizations, or look them up by domain. Charges 0.5 credits per returned organization. limit 0 returns only totalCount, free.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Free text matched against company name, description and keywords",
+              "type": "string",
+              "minLength": 1
+            },
+            "semantic": {
+              "description": "What the company is and sells, matched by meaning, e.g. \"outsourced medical billing for clinics\"",
+              "type": "string",
+              "minLength": 1
+            },
+            "domains": {
+              "description": "Look companies up by domain, e.g. [\"stripe.com\"]",
+              "maxItems": 100,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hqCountry": {
+              "description": "ISO alpha-2 country codes of the headquarters, e.g. [\"US\", \"DE\"]",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hqState": {
+              "description": "US state names or codes of the headquarters",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "employeeBands": {
+              "description": "Headcount bands",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "1-10",
+                  "11-50",
+                  "51-200",
+                  "201-500",
+                  "501-1,000",
+                  "1,001-5,000",
+                  "5,001-10,000",
+                  "10,001+"
+                ]
+              }
+            },
+            "revenueRange": {
+              "description": "Annual company revenue bands",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "<$1M",
+                  "$1M to <$10M",
+                  "$10M to <$50M",
+                  "$50M to <$100M",
+                  "$100M to <$1B",
+                  "$1B+"
+                ]
+              }
+            },
+            "industryNaicsDirect": {
+              "description": "NAICS codes",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "technologies": {
+              "description": "Technologies used by the company",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "foundedAfter": {
+              "description": "Earliest founding year to include",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "foundedBefore": {
+              "description": "Latest founding year to include",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "monthlyVisitsMin": {
+              "description": "Minimum monthly website visits; known for about 1 in 8 US companies, the rest are excluded",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "employeeGrowthMin": {
+              "description": "Minimum employee growth on LinkedIn in percent, e.g. 10; known for about 1 in 13 US companies",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "fundedAfter": {
+              "description": "Year of the last funding round, at least; known for about 1 in 100 US companies",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "hqCity": {
+              "description": "City names of the headquarters, e.g. [\"Austin\"]",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "limit": {
+              "default": 25,
+              "description": "Maximum companies to return; 0 returns only a free count",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 25
+            },
+            "offset": {
+              "default": 0,
+              "description": "Number of matching companies to skip for pagination",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "includeWithoutWebsite": {
+              "default": false,
+              "description": "Include companies without websites in search results",
+              "type": "boolean"
+            }
+          }
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "totalCount": {
+              "type": "number"
+            },
+            "chargedCredits": {
+              "type": "number"
+            },
+            "organizations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "organizationId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "domain": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "website": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "websiteAlive": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ]
+                  },
+                  "websiteTitle": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "websiteDescription": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "linkedin": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "linkedinDescription": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "description": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "industry": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "naicsCodes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "keywords": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "technologies": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "employeeCount": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "employeeMin": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "employeeMax": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "revenueRange": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "monthlyVisits": {
+                    "description": "Estimated monthly website visits",
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "monthlyGoogleAdSpend": {
+                    "description": "Estimated monthly Google Ads spend in USD",
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "employeeGrowthRate": {
+                    "description": "Employee growth on LinkedIn in percent",
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "lastFunding": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "description": "e.g. Seed Round, Series A, Private Equity Round",
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "date": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "amount": {
+                        "description": "USD",
+                        "type": [
+                          "number",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "date",
+                      "amount"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "totalFunding": {
+                    "description": "USD",
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "foundedYear": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "hqCity": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "hqState": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "hqCountry": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "emails": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Found on the company website"
+                  },
+                  "phones": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Found on the company website"
+                  },
+                  "socials": {
+                    "type": "object",
+                    "properties": {
+                      "facebook": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "instagram": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "linkedin": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "x": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "tiktok": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      },
+                      "youtube": {
+                        "type": [
+                          "string",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "facebook",
+                      "instagram",
+                      "linkedin",
+                      "x",
+                      "tiktok",
+                      "youtube"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "adPixels": {
+                    "type": "object",
+                    "properties": {
+                      "meta": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "googleAds": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "googleAnalytics": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "tiktok": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      },
+                      "chatgpt": {
+                        "type": [
+                          "boolean",
+                          "null"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "meta",
+                      "googleAds",
+                      "googleAnalytics",
+                      "tiktok",
+                      "chatgpt"
+                    ],
+                    "additionalProperties": false,
+                    "description": "true/false where the website was checked, null where it never was"
+                  }
+                },
+                "required": [
+                  "organizationId",
+                  "name",
+                  "domain",
+                  "website",
+                  "websiteAlive",
+                  "websiteTitle",
+                  "websiteDescription",
+                  "linkedin",
+                  "linkedinDescription",
+                  "description",
+                  "industry",
+                  "naicsCodes",
+                  "keywords",
+                  "technologies",
+                  "employeeCount",
+                  "employeeMin",
+                  "employeeMax",
+                  "revenueRange",
+                  "monthlyVisits",
+                  "monthlyGoogleAdSpend",
+                  "employeeGrowthRate",
+                  "lastFunding",
+                  "totalFunding",
+                  "foundedYear",
+                  "hqCity",
+                  "hqState",
+                  "hqCountry",
+                  "emails",
+                  "phones",
+                  "socials",
+                  "adPixels"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "totalCount",
+            "chargedCredits",
+            "organizations"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "organizations_enrich",
+        "title": "Enrich a company from its domain",
+        "description": "Enrich a company from its domain. Returns the company's firmographics, socials and website data. Charges 0.5 credits only when the company is found.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "domain": {
+              "type": "string",
+              "minLength": 3,
+              "description": "Company domain or website URL, e.g. \"stripe.com\""
+            }
+          },
+          "required": [
+            "domain"
+          ]
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "found": {
+              "type": "boolean"
+            },
+            "chargedCredits": {
+              "type": "number"
+            },
+            "organization": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "organizationId": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "domain": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "website": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "websiteAlive": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "websiteTitle": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "websiteDescription": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "linkedin": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "linkedinDescription": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "description": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "industry": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "naicsCodes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "keywords": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "technologies": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "employeeCount": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "employeeMin": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "employeeMax": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "revenueRange": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "monthlyVisits": {
+                      "description": "Estimated monthly website visits",
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "monthlyGoogleAdSpend": {
+                      "description": "Estimated monthly Google Ads spend in USD",
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "employeeGrowthRate": {
+                      "description": "Employee growth on LinkedIn in percent",
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "lastFunding": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "description": "e.g. Seed Round, Series A, Private Equity Round",
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "date": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "amount": {
+                          "description": "USD",
+                          "type": [
+                            "number",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "date",
+                        "amount"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "totalFunding": {
+                      "description": "USD",
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "foundedYear": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "hqCity": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "hqState": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "hqCountry": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "emails": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Found on the company website"
+                    },
+                    "phones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Found on the company website"
+                    },
+                    "socials": {
+                      "type": "object",
+                      "properties": {
+                        "facebook": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "instagram": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "linkedin": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "x": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "tiktok": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "youtube": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "facebook",
+                        "instagram",
+                        "linkedin",
+                        "x",
+                        "tiktok",
+                        "youtube"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "adPixels": {
+                      "type": "object",
+                      "properties": {
+                        "meta": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "googleAds": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "googleAnalytics": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "tiktok": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "chatgpt": {
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "meta",
+                        "googleAds",
+                        "googleAnalytics",
+                        "tiktok",
+                        "chatgpt"
+                      ],
+                      "additionalProperties": false,
+                      "description": "true/false where the website was checked, null where it never was"
+                    }
+                  },
+                  "required": [
+                    "organizationId",
+                    "name",
+                    "domain",
+                    "website",
+                    "websiteAlive",
+                    "websiteTitle",
+                    "websiteDescription",
+                    "linkedin",
+                    "linkedinDescription",
+                    "description",
+                    "industry",
+                    "naicsCodes",
+                    "keywords",
+                    "technologies",
+                    "employeeCount",
+                    "employeeMin",
+                    "employeeMax",
+                    "revenueRange",
+                    "monthlyVisits",
+                    "monthlyGoogleAdSpend",
+                    "employeeGrowthRate",
+                    "lastFunding",
+                    "totalFunding",
+                    "foundedYear",
+                    "hqCity",
+                    "hqState",
+                    "hqCountry",
+                    "emails",
+                    "phones",
+                    "socials",
+                    "adPixels"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "found",
+            "chargedCredits",
+            "organization"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "organizations_find_decision_maker",
+        "title": "Find the decision maker of an organization with a verified email",
+        "description": "Find the decision maker of an organization with a verified email. Charges 2 credits only when a decision maker is found. Can take a few minutes.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "organizationId": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Company ID returned by organization search or enrichment"
+            }
+          },
+          "required": [
+            "organizationId"
+          ]
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "found": {
+              "type": "boolean"
+            },
+            "creditsCharged": {
+              "type": "number"
+            },
+            "decisionMaker": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "position": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "linkedin": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "position",
+                    "linkedin",
+                    "email"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "found",
+            "creditsCharged",
+            "decisionMaker"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": true
+        }
+      },
+      {
+        "name": "persons_search",
+        "title": "Search persons with their emails and phones",
+        "description": "Search persons with their emails and phones. Covers professional contacts only: people in their role at a company, not private individuals. Returns only people with an email or phone, with full contact data, and charges 1 credit per returned person. Page with nextOffset. limit 0 returns only totalCount, free. saveToContacts also stores them in your contacts, where people you already had are refunded.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Free text matched against company name, description and keywords",
+              "type": "string",
+              "minLength": 1
+            },
+            "semantic": {
+              "description": "What the company is and sells, matched by meaning, e.g. \"outsourced medical billing for clinics\"",
+              "type": "string",
+              "minLength": 1
+            },
+            "domains": {
+              "description": "Look companies up by domain, e.g. [\"stripe.com\"]",
+              "maxItems": 100,
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hqCountry": {
+              "description": "ISO alpha-2 country codes of the headquarters, e.g. [\"US\", \"DE\"]",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "hqState": {
+              "description": "US state names or codes of the headquarters",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "employeeBands": {
+              "description": "Headcount bands",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "1-10",
+                  "11-50",
+                  "51-200",
+                  "201-500",
+                  "501-1,000",
+                  "1,001-5,000",
+                  "5,001-10,000",
+                  "10,001+"
+                ]
+              }
+            },
+            "revenueRange": {
+              "description": "Annual company revenue bands",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "<$1M",
+                  "$1M to <$10M",
+                  "$10M to <$50M",
+                  "$50M to <$100M",
+                  "$100M to <$1B",
+                  "$1B+"
+                ]
+              }
+            },
+            "industryNaicsDirect": {
+              "description": "NAICS codes",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "technologies": {
+              "description": "Technologies used by the company",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "foundedAfter": {
+              "description": "Earliest founding year to include",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "foundedBefore": {
+              "description": "Latest founding year to include",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "monthlyVisitsMin": {
+              "description": "Minimum monthly website visits; known for about 1 in 8 US companies, the rest are excluded",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "employeeGrowthMin": {
+              "description": "Minimum employee growth on LinkedIn in percent, e.g. 10; known for about 1 in 13 US companies",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "fundedAfter": {
+              "description": "Year of the last funding round, at least; known for about 1 in 100 US companies",
+              "type": "integer",
+              "minimum": -9007199254740991,
+              "maximum": 9007199254740991
+            },
+            "jobTitle": {
+              "description": "Matched as partial text, so \"CEO\" also finds \"Assistant to the CEO\"; combine with jobLevel to narrow",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "jobTitleExclude": {
+              "description": "Job title phrases to exclude",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "jobLevel": {
+              "description": "Allowed job seniority levels",
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "C-Team",
+                  "VP",
+                  "Director",
+                  "Manager",
+                  "Staff",
+                  "Other"
+                ]
+              }
+            },
+            "decisionMakersOnly": {
+              "description": "C-level, VP or director seniority, or a founder, owner, CEO, managing director or president title",
+              "type": "boolean"
+            },
+            "inCountry": {
+              "description": "ISO alpha-2 country codes where the person is based",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "personState": {
+              "description": "States where the person is based",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "personCity": {
+              "description": "Cities where the person is based",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "organizationIds": {
+              "description": "Limit to organizations from organizations_search",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "limit": {
+              "default": 25,
+              "description": "Maximum people to return; 0 returns only a free count",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "offset": {
+              "default": 0,
+              "description": "Pagination offset; use nextOffset from the previous response",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "onePerOrganization": {
+              "default": false,
+              "description": "Return at most one person per company",
+              "type": "boolean"
+            },
+            "saveToContacts": {
+              "default": false,
+              "description": "Save returned people to your Deeplead contacts",
+              "type": "boolean"
+            }
+          }
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "totalCount": {
+              "type": "number",
+              "description": "With limit 0: all matching people, including those without an email or phone"
+            },
+            "nextOffset": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "chargedCredits": {
+              "type": "number"
+            },
+            "persons": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "personId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "email": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "alternateEmails": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "phone": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "phones": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "linkedin": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "jobTitle": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "jobLevel": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "jobFunction": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "city": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "state": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "country": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "organizationId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "companyName": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "companyWebsite": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "revenueRange": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "naicsCodes": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "foundedYear": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "companyMonthlyVisits": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "companyEmployeeGrowthRate": {
+                    "description": "Percent",
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "companyLastFundingType": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "companyLastFundingDate": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "personId",
+                  "name",
+                  "email",
+                  "alternateEmails",
+                  "phone",
+                  "phones",
+                  "linkedin",
+                  "jobTitle",
+                  "jobLevel",
+                  "jobFunction",
+                  "city",
+                  "state",
+                  "country",
+                  "organizationId",
+                  "companyName",
+                  "companyWebsite",
+                  "revenueRange",
+                  "naicsCodes",
+                  "foundedYear",
+                  "companyMonthlyVisits",
+                  "companyEmployeeGrowthRate",
+                  "companyLastFundingType",
+                  "companyLastFundingDate"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "totalCount",
+            "nextOffset",
+            "chargedCredits",
+            "persons"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "persons_lookup",
+        "title": "Look up one person by LinkedIn URL, email, or name and company domain",
+        "description": "Look up one person by LinkedIn URL, email, or name and company domain. Returns the person with their emails, phones, role and company. Covers professional contacts only: people in their role at a company, not private individuals. Charges 1 credit only when the person is found with an email or phone. saveToContacts also stores them in your contacts.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "linkedin": {
+              "description": "e.g. \"https://www.linkedin.com/in/jane-doe\"",
+              "type": "string",
+              "minLength": 1
+            },
+            "email": {
+              "description": "Known email address identifying the person",
+              "type": "string",
+              "format": "email",
+              "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+            },
+            "name": {
+              "description": "Full name, e.g. \"Jane Doe\"; needs domain",
+              "type": "string",
+              "minLength": 3
+            },
+            "domain": {
+              "description": "Company domain, e.g. \"acme.com\"",
+              "type": "string",
+              "minLength": 3
+            },
+            "saveToContacts": {
+              "default": false,
+              "description": "Save the returned person to your Deeplead contacts",
+              "type": "boolean"
+            }
+          }
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "found": {
+              "type": "boolean"
+            },
+            "chargedCredits": {
+              "type": "number"
+            },
+            "person": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "personId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "email": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "alternateEmails": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "phone": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "phones": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "linkedin": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "jobTitle": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "jobLevel": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "jobFunction": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "city": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "state": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "country": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "organizationId": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "companyName": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "companyWebsite": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "revenueRange": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "naicsCodes": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "foundedYear": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "companyMonthlyVisits": {
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "companyEmployeeGrowthRate": {
+                      "description": "Percent",
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "companyLastFundingType": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "companyLastFundingDate": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "personId",
+                    "name",
+                    "email",
+                    "alternateEmails",
+                    "phone",
+                    "phones",
+                    "linkedin",
+                    "jobTitle",
+                    "jobLevel",
+                    "jobFunction",
+                    "city",
+                    "state",
+                    "country",
+                    "organizationId",
+                    "companyName",
+                    "companyWebsite",
+                    "revenueRange",
+                    "naicsCodes",
+                    "foundedYear",
+                    "companyMonthlyVisits",
+                    "companyEmployeeGrowthRate",
+                    "companyLastFundingType",
+                    "companyLastFundingDate"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "found",
+            "chargedCredits",
+            "person"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "persons_find_email",
+        "title": "Find a person's work email by LinkedIn URL, or full name and company domain",
+        "description": "Find a person's work email by LinkedIn URL, or full name and company domain. Charges 1 credit only when an email is found.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "linkedin": {
+              "description": "e.g. \"https://www.linkedin.com/in/jane-doe\"",
+              "type": "string",
+              "minLength": 1
+            },
+            "name": {
+              "description": "Full name, e.g. \"Jane Doe\"; needs domain",
+              "type": "string",
+              "minLength": 3
+            },
+            "domain": {
+              "description": "Company domain, e.g. \"acme.com\"",
+              "type": "string",
+              "minLength": 3
+            }
+          }
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "found": {
+              "type": "boolean"
+            },
+            "chargedCredits": {
+              "type": "number"
+            },
+            "email": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "alternateEmails": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "jobTitle": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "companyName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "companyWebsite": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "linkedin": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "found",
+            "chargedCredits",
+            "email",
+            "alternateEmails",
+            "name",
+            "jobTitle",
+            "companyName",
+            "companyWebsite",
+            "linkedin"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "persons_find_phone",
+        "title": "Find a person's phone number by LinkedIn URL, email, or full name and company domain",
+        "description": "Find a person's phone number by LinkedIn URL, email, or full name and company domain. Covers professional contacts only: people in their role at a company, not private individuals. Charges 2 credits only when a phone number is found.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "linkedin": {
+              "description": "e.g. \"https://www.linkedin.com/in/jane-doe\"",
+              "type": "string",
+              "minLength": 1
+            },
+            "email": {
+              "description": "Known email address identifying the person",
+              "type": "string",
+              "format": "email",
+              "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+            },
+            "name": {
+              "description": "Full name, e.g. \"Jane Doe\"; needs domain",
+              "type": "string",
+              "minLength": 3
+            },
+            "domain": {
+              "description": "Company domain, e.g. \"acme.com\"",
+              "type": "string",
+              "minLength": 3
+            }
+          }
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "found": {
+              "type": "boolean"
+            },
+            "chargedCredits": {
+              "type": "number"
+            },
+            "phone": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "phones": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "jobTitle": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "companyName": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "companyWebsite": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "linkedin": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "found",
+            "chargedCredits",
+            "phone",
+            "phones",
+            "name",
+            "jobTitle",
+            "companyName",
+            "companyWebsite",
+            "linkedin"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "contacts_create",
+        "title": "Save your own contacts or organizations",
+        "description": "Save your own contacts or organizations. Free. Existing contacts are matched and kept, never duplicated.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "contacts": {
+              "minItems": 1,
+              "maxItems": 1000,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "pattern": "^(?:[A-Za-z0-9_'+\\-]+\\.)*[A-Za-z0-9_'+\\-]*[A-Za-z0-9_+-]@(?:[A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+                  },
+                  "personName": {
+                    "type": "string"
+                  },
+                  "position": {
+                    "type": "string"
+                  },
+                  "businessName": {
+                    "type": "string"
+                  },
+                  "website": {
+                    "type": "string"
+                  },
+                  "linkedin": {
+                    "type": "string"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "city": {
+                    "type": "string"
+                  },
+                  "industry": {
+                    "type": "string"
+                  },
+                  "organizationId": {
+                    "description": "From organizations_search",
+                    "type": "string"
+                  }
+                }
+              },
+              "description": "Contacts to save; each needs an email, LinkedIn URL, website or organization ID"
+            }
+          },
+          "required": [
+            "contacts"
+          ]
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "saved": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "saved"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "contacts_list",
+        "title": "List your contacts in a stable order; page with nextBefore",
+        "description": "List your contacts in a stable order; page with nextBefore",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "limit": {
+              "default": 100,
+              "description": "Maximum saved contacts to return on this page",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 500
+            },
+            "before": {
+              "description": "The nextBefore of the previous page",
+              "type": "string"
+            }
+          }
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "contacts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "contactId": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "email": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "jobTitle": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "companyName": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "website": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "linkedin": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "organizationId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "contactId",
+                  "name",
+                  "email",
+                  "jobTitle",
+                  "companyName",
+                  "website",
+                  "linkedin",
+                  "organizationId"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "nextBefore": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "contacts",
+            "nextBefore"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "deliverability_create_test",
+        "title": "Start an inbox placement test for a mailbox you send from",
+        "description": "Start an inbox placement test for a mailbox you send from. Send one email from the mailbox you want to test to every address in seedEmails, with the testId anywhere in the body, then poll deliverability_get_test about once a minute to see whether it landed in the inbox, spam or a tab at Gmail, Outlook and other providers. Most seeds report within 2-5 minutes; the test closes 60 minutes after it starts. Charges 25 credits.",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "testId": {
+              "type": "string",
+              "description": "Put this anywhere in the body of the test email"
+            },
+            "seedEmails": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Send the test email to every one of these addresses"
+            },
+            "chargedCredits": {
+              "type": "number"
+            },
+            "closesAt": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "testId",
+            "seedEmails",
+            "chargedCredits",
+            "closesAt"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "deliverability_get_test",
+        "title": "Where the test email landed at each seed mailbox",
+        "description": "Where the test email landed at each seed mailbox. Poll about once a minute while status is waiting. placement is inbox, spam, promotions, social, updates or forums, or missing while the email has not arrived; score is the inbox share from 0 to 10 once the test is completed. rspamd is the content filter verdict with its matched rules, when a seed reports one.",
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "testId": {
+              "type": "string",
+              "pattern": "^dlt-[0-9a-f]{24}$",
+              "description": "testId returned by deliverability_create_test"
+            }
+          },
+          "required": [
+            "testId"
+          ]
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "testId": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "waiting",
+                "completed"
+              ]
+            },
+            "closesAt": {
+              "type": "string"
+            },
+            "score": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "seeds": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "provider": {
+                    "type": "string"
+                  },
+                  "placement": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "provider",
+                  "placement"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "rspamd": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "score": {
+                      "type": "number"
+                    },
+                    "requiredScore": {
+                      "type": "number"
+                    },
+                    "action": {
+                      "type": "string"
+                    },
+                    "symbols": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "score": {
+                            "type": "number"
+                          },
+                          "description": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "score"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "score",
+                    "requiredScore",
+                    "action",
+                    "symbols"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "testId",
+            "status",
+            "closesAt",
+            "score",
+            "seeds",
+            "rspamd"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      },
+      {
+        "name": "credits_get",
+        "title": "Current credit balance",
+        "description": "Current credit balance",
+        "inputSchema": {
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "credits": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "credits"
+          ],
+          "additionalProperties": false
+        },
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "openWorldHint": false
+        }
+      }
+    ]
+  }
+}
