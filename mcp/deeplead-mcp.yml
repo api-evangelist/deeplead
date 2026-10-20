@@ -35,3 +35,54 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools:
+- name: businesses_search
+  description: Search local businesses from Google Business Profiles. 23M+ businesses with ratings, reviews,
+    website contacts, socials and ad pixels. 30 per page. Charges 1 credit per business with an email
+    or phone and 0.5 per business without. saveToContacts also stores them in your contacts.
+- name: organizations_search
+  description: Search organizations, or look them up by domain. Charges 0.5 credits per returned organization.
+    limit 0 returns only totalCount, free.
+- name: organizations_enrich
+  description: Enrich a company from its domain. Returns the company's firmographics, socials and website
+    data. Charges 0.5 credits only when the company is found.
+- name: organizations_find_decision_maker
+  description: Find the decision maker of an organization with a verified email. Charges 2 credits only
+    when a decision maker is found. Can take a few minutes.
+- name: persons_search
+  description: 'Search persons with their emails and phones. Covers professional contacts only: people
+    in their role at a company, not private individuals. Returns only people with an email or phone, with
+    full contact data, and charges 1 credit per returned person. Page with nextOffset. limit 0 returns
+    only totalCount, free. saveToContacts also stores them in your contacts, where people you already
+    had are refunded.'
+- name: persons_lookup
+  description: 'Look up one person by LinkedIn URL, email, or name and company domain. Returns the person
+    with their emails, phones, role and company. Covers professional contacts only: people in their role
+    at a company, not private individuals. Charges 1 credit only when the person is found with an email
+    or phone. saveToContacts also stores them in your contacts.'
+- name: persons_find_email
+  description: Find a person's work email by LinkedIn URL, or full name and company domain. Charges 1
+    credit only when an email is found.
+- name: persons_find_phone
+  description: 'Find a person''s phone number by LinkedIn URL, email, or full name and company domain.
+    Covers professional contacts only: people in their role at a company, not private individuals. Charges
+    2 credits only when a phone number is found.'
+- name: contacts_create
+  description: Save your own contacts or organizations. Free. Existing contacts are matched and kept,
+    never duplicated.
+- name: contacts_list
+  description: List your contacts in a stable order; page with nextBefore
+- name: deliverability_create_test
+  description: Start an inbox placement test for a mailbox you send from. Send one email from the mailbox
+    you want to test to every address in seedEmails, with the testId anywhere in the body, then poll deliverability_get_test
+    about once a minute to see whether it landed in the inbox, spam or a tab at Gmail, Outlook and other
+    providers. Most seeds report within 2-5 minutes; the test closes 60 minutes after it starts. Charges
+    25 credits.
+- name: deliverability_get_test
+  description: Where the test email landed at each seed mailbox. Poll about once a minute while status
+    is waiting. placement is inbox, spam, promotions, social, updates or forums, or missing while the
+    email has not arrived; score is the inbox share from 0 to 10 once the test is completed. rspamd is
+    the content filter verdict with its matched rules, when a seed reports one.
+- name: credits_get
+  description: Current credit balance
+tools_count: 13
